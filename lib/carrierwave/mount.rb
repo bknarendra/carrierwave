@@ -186,7 +186,11 @@ module CarrierWave
         end
 
         def store_previous_changes_for_#{column}
-          @_previous_changes_for_#{column} = saved_changes[_mounter(:#{column}).serialization_column]
+          if respond_to?(:saved_changes)
+            @_previous_changes_for_#{column} = saved_changes[_mounter(:#{column}).serialization_column]
+          else
+            @_previous_changes_for_#{column} = changes[_mounter(:#{column}).serialization_column]
+          end
         end
 
         def remove_previously_stored_#{column}
@@ -340,7 +344,12 @@ module CarrierWave
         end
 
         def store_previous_changes_for_#{column}
-          @_previous_changes_for_#{column} = saved_changes[_mounter(:#{column}).serialization_column]
+          if respond_to?(:saved_changes)
+            @_previous_changes_for_#{column} = saved_changes[_mounter(:#{column}).serialization_column]
+          else
+            @_previous_changes_for_#{column} = changes[_mounter(:#{column}).serialization_column]
+          end
+
         end
 
         def remove_previously_stored_#{column}
